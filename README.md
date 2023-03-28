@@ -14,13 +14,15 @@ This repository is about the Dataprocessing course final assignment, This assign
 ## Contents
 This repository has directories with file and data and supporting files
 
-|File/Directory    |Contains                                              |
+|Directory         |Contains                                              |
 |---               |---                                                   |
 |Config            |Configuration file                                    |
 |Data              |Raw reads and genome(annotation)                      |
 |Scripts           |Python and R scripts                                  |
 |Software          |installation dir for software + install shell scripts |
 |Workflow          |Snakefile + rules directory                           |
+|---               |---                                                   |
+|Files                                                                    |
 |Requirements.txt  |File for loading python packages in venv              |
 |LICENSE           |License for usage and distribution of software        |
 |.gitignore        |For ignoring python, R, venv and snakemake junk files |
