@@ -1,22 +1,32 @@
 #Configfile
+
+## directories
 datadir: data/
+ref_DB: bowtie2_refDB/
 
-samples:  ['Eco_Ctrl1', 'Eco_Ctrl2', 'Eco_Exp1', 'Eco_Exp2']
+## samples
+samples: ['Eco_Ctrl1', 'Eco_Ctrl2', 'Eco_Exp1', 'Eco_Exp2']
+
+## genomes
 ribo_adapter: RiboSeq_adapter_as
+ref_genome: NC_000913.3
 
+## extensions
 ext:
   raw_reads: .fastq.gz
   genome: .fa
-  
+
+## threads
 threads: 8
-  
-  
+
+
+## Trimmomatic settings
 trimmomatic:
-  jar: software/Trimmomatic-0.39/trimmomatic-0.39.jar
-  phred: -phred33
-  minlen: 12
-  maxmismatch: 2
-  pairend: 30
-  minscore: 6
-  slidewindow: 4
-  minqual: 15
+  jar: software/Trimmomatic-0.39/trimmomatic-0.39.jar #jar location
+  phred: -phred33 # declare quality scoring metric
+  minlen: 12 # drop reads below 12 or lower
+  maxmismatch: 2 # allowing maximally 2 mismatches
+  pairend: 30 # Trimmomatic will look for seed matches (16 bases). These seeds will be extended and clipped if in the case of paired end reads a score of 30 is reached (about 50 bases),
+  minscore: 6 # minimum alignment score
+  slidewindow: 4 # Scan the read with a 4-base wide sliding window
+  minqual: 15  # cutting the slidewindow when the average quality per base drops below 15
