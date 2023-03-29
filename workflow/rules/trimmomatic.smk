@@ -1,5 +1,5 @@
 """
-Removing the low-quality reads (or bases) and the adapter sequence
+Thi script removes the low-quality reads (or bases) and the adapter sequence
 that may not be removed from sequencer, so that only the high
 quality ribosome-protected sequence remains.
 """
@@ -7,14 +7,20 @@ quality ribosome-protected sequence remains.
 configfile: "config/config.yaml"
 
 rule all:
+    """rule all"""
     input:
         expand("results/trimmed_reads/{sample}_trimmed.fastq.gz", sample=config["samples"])
 
 
 rule trimmomatic:
+    """
+    Trims the low quality reads to achieve only high quality reads
+    - input: raw samples
+    - output: high quality trimmed samples
+    """
     input:
-        raw_reads = 'data/{sample}' + config["ext"]["raw_reads"],
-        adapter = "data/" + config["ribo_adapter"] + config["ext"]["genome"]
+        raw_reads = config["datadir"] + '{sample}' + config["ext"]["raw_reads"],
+        adapter = config["datadir"] + config["ribo_adapter"] + config["ext"]["genome"]
 
     output:
         "results/trimmed_reads/{sample}_trimmed.fastq.gz"
@@ -44,5 +50,3 @@ rule trimmomatic:
          ILLUMINACLIP:{input.adapter}:{params.maxmis}:{params.pairend}:{params.minscore} \
          SLIDINGWINDOW:{params.slidewindow}:{params.minqual} \
          MINLEN:{params.minlen} -threads {threads} 2> {log}"
-
-
