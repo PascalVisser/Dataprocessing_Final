@@ -3,6 +3,9 @@
 ## directories
 datadir: data/
 ref_DB: bowtie2_refDB/
+script_dir:
+  python: scripts/python
+  R: scripts/R
 
 ## samples
 samples: ['Eco_Ctrl1', 'Eco_Ctrl2', 'Eco_Exp1', 'Eco_Exp2']
@@ -15,6 +18,7 @@ ref_genome: NC_000913.3
 ext:
   raw_reads: .fastq.gz
   genome: .fa
+  annotation: .gff3
 
 ## threads
 threads: 8
