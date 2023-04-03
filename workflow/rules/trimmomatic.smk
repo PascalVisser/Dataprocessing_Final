@@ -2,6 +2,10 @@
 Thi script removes the low-quality reads (or bases) and the adapter sequence
 that may not be removed from sequencer, so that only the high
 quality ribosome-protected sequence remains.
+
+rules:
+
+- Trimmomatic: trimming the raw reads
 """
 
 configfile: "config/config.yaml"
