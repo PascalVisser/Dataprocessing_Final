@@ -1,8 +1,11 @@
 """
 This script maps/aligns the newly formed high quality reads against a reference genome
 The process takes place in two steps:
-- Building a reference database
-- Align the reads
+
+Rules:
+
+- building_referenceDB: Building a reference database
+- mapping: Align the reads
 """
 
 configfile: "config/config.yaml"
