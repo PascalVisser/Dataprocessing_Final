@@ -1,17 +1,19 @@
 #! usr/bin/python3
 
+"""
+Python script that transform genome annotation file into usable .ggf file
+"""
+
 import getopt
 import sys
 
-with open(snakemake.log[0], "w") as f:
-    sys.stderr = sys.stdout = f
-
 
 def get_argv(argv):
+    """Collect and process arguments"""
     input_file = ''
     output_file = ''
     try:
-        options, args = getopt.getopt(argv, 'hi:o:')
+        options, argv = getopt.getopt(argv, 'hi:o:')
     except getopt.GetoptError:
         print('Error while reading argument. Call ParseGenomeAnnotation.py -h')
         sys.exit(2)
@@ -21,9 +23,9 @@ def get_argv(argv):
     for option, arg in options:
         if len(options) == 1:
             if option == '-h':
-                print(
-                    'ParseGenomeAnnotation.py sweeps unnecessarily long attribute section of GFF3 file downloaded '
-                    'from NCBI.')
+                print('ParseGenomeAnnotation.py sweeps unnecessarily long '
+                      'attribute section of GFF3 file downloaded '
+                      'from NCBI.')
                 print('Usage: Parse_genome_annotation.py -i <input_file> -o <output_file>')
                 sys.exit()
             else:
@@ -41,19 +43,19 @@ def get_argv(argv):
                     print('Error while reading argument. Call ParseGenomeAnnotation.py -h')
                     sys.exit(2)
                 output_file = arg
-                print('Output GFF3: ' + output_file)
+                print('Output GFF3: ' + output_file + '\n')
     return input_file, output_file
 
 
-def Parse_input(infile):
+def parse_input(infile):
+    """Parse input arguments"""
     try:
-        temp = open(infile, 'r')
-        temp2 = temp.readline()
-        while temp2[0] == '#':
+        with open(infile, 'r', encoding="UTF-8") as temp:
             temp2 = temp.readline()
-        temp3 = [temp2] + temp.readlines()
-        temp.close()
-        temp4 = []
+            while temp2[0] == '#':
+                temp2 = temp.readline()
+            temp3 = [temp2] + temp.readlines()
+            temp4 = []
         for i in temp3:
             temp4.append(i.split('\t'))
         accession = temp4[0][0]
@@ -64,26 +66,27 @@ def Parse_input(infile):
     return temp4, accession
 
 
-def Sweep_and_output(input_list, accession, output_file):
-    in_count = len(input_list)
+def sweep_and_output(inputlist, accession, output_file):
+    """Sweeps and creates output"""
+    in_count = len(inputlist)
     out_count = 0
-    output = open(output_file, 'w')
-    for i in input_list:
-        try:
-            if i[2] == 'CDS':
-                start, end, strand = i[3], i[4], i[6]
-                ID = Get_ID(i[8])
-                output.write('\t'.join([accession, 'RefSeq', 'CDS', start, end, '.', strand, '.', ID]) + '\n')
-                out_count += 1
-        except IndexError:
-            pass
-    print('Read %s lines from GFF3' % in_count)
-    print('%s CDSs remained' % out_count)
-    output.close()
-    return
+    with open(output_file, 'w', encoding="UTF-8") as output:
+        for i in inputlist:
+            try:
+                if i[2] == 'CDS':
+                    start, end, strand = i[3], i[4], i[6]
+                    anno = get_id(i[8])
+                    output.write('\t'.join([accession, 'RefSeq', 'CDS', start,
+                                            end, '.', strand, '.', anno]) + '\n')
+                    out_count += 1
+            except IndexError:
+                pass
+    print(f'Read {in_count} lines from GFF3')
+    print(f'{out_count} CDSs remained')
 
 
-def Get_ID(attribute):
+def get_id(attribute):
+    """Get attribute ID"""
     attributes = attribute.split(';')
     attributes_dic = {}
     for i in attributes:
@@ -92,15 +95,11 @@ def Get_ID(attribute):
 
 
 def main():
-    # Arguments from snakemake
-    snake_input = snakemake.input[0]
-    snake_output = snakemake.output[0]
-
-    input_list, accession = Parse_input(snake_input)
-    Sweep_and_output(input_list, accession, snake_output)
-
-    return 0
+    """Main executing func"""
+    inputfile, outputfile = get_argv(sys.argv[1:])
+    input_list, accession1 = parse_input(inputfile)
+    sweep_and_output(input_list, accession1, outputfile)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(main())
