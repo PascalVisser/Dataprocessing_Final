@@ -11,10 +11,6 @@ Rules:
 
 configfile: "config/config.yaml"
 
-rule all:
-    input:
-        expand("results/bam_files/decompiled_{sample}.bed", sample=config["samples"])
-
 rule convert_sam:
     """
     Convert the .SAM alignment file into a .BAM file format
@@ -65,4 +61,3 @@ rule decompile_bam:
         "logs/decompiler/decompile_bam/decompile_{sample}.log"
     shell:
         "bedtools bamtobed -i {input} > {output} 2> {log}"
-
