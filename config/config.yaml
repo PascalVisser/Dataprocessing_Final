@@ -3,9 +3,6 @@
 ## directories
 datadir: data/
 ref_DB: bowtie2_refDB/
-script_dir:
-  python: scripts/python
-  R: scripts/R
 
 ## samples
 samples: ['Eco_Ctrl1', 'Eco_Ctrl2', 'Eco_Exp1', 'Eco_Exp2']
