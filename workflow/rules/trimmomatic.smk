@@ -10,12 +10,6 @@ rules:
 
 configfile: "config/config.yaml"
 
-rule all:
-    """rule all"""
-    input:
-        expand("results/trimmed_reads/{sample}_trimmed.fastq.gz", sample=config["samples"])
-
-
 rule trimmomatic:
     """
     Trims the low quality reads to achieve only high quality reads
@@ -23,8 +17,8 @@ rule trimmomatic:
     - output: high quality trimmed samples
     """
     input:
-        raw_reads = config["datadir"] + '{sample}' + config["ext"]["raw_reads"],
-        adapter = config["datadir"] + config["ribo_adapter"] + config["ext"]["genome"]
+        raw_reads=config["datadir"] + '{sample}' + config["ext"]["raw_reads"],
+        adapter=config["datadir"] + config["ribo_adapter"] + config["ext"]["genome"]
 
     output:
         "results/trimmed_reads/{sample}_trimmed.fastq.gz"
@@ -33,14 +27,14 @@ rule trimmomatic:
         config["threads"]
 
     params:
-        jar = config["trimmomatic"]["jar"],
-        phred =  config["trimmomatic"]["phred"],
-        minlen = config["trimmomatic"]["minlen"],
-        maxmis = config["trimmomatic"]["maxmismatch"],
-        pairend = config["trimmomatic"]["pairend"],
-        minscore =  config["trimmomatic"]["minscore"],
-        slidewindow = config["trimmomatic"]["slidewindow"],
-        minqual =  config["trimmomatic"]["minqual"]
+        jar=config["trimmomatic"]["jar"],
+        phred=config["trimmomatic"]["phred"],
+        minlen=config["trimmomatic"]["minlen"],
+        maxmis=config["trimmomatic"]["maxmismatch"],
+        pairend=config["trimmomatic"]["pairend"],
+        minscore=config["trimmomatic"]["minscore"],
+        slidewindow=config["trimmomatic"]["slidewindow"],
+        minqual=config["trimmomatic"]["minqual"]
 
     message:
         "Trimmomatic started trimming {input.raw_reads}"
