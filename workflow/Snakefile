@@ -5,7 +5,8 @@ configfile: "config/config.yaml"
 
 rule all:
     input:
-        expand("results/ribo/ribo_profile_{sample}.gff",sample=config["samples"])
+        expand("results/ribo/ribo_profile_{sample}.gff",sample=config["samples"]),
+        "results/DESeq"
 
 include: "rules/trimmomatic.smk"
 include: "rules/mapping.smk"
@@ -13,3 +14,5 @@ include: "rules/decompiler.smk"
 include: "rules/GFF3_annotation.smk"
 include: "rules/meta_analysis.smk"
 include: "rules/ribo-seq_profile.smk"
+include: "rules/differential_expression_analysis.smk"
+include: "rules/generate_heatmap.smk"
