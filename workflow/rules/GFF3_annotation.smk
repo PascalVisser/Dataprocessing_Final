@@ -4,19 +4,25 @@ an essential GFF file, this will be done by using a python script
 
 Rules:
 
-- create_GFF: creates a gff file
+- generate_extract_CDS_annotation: creates a gff file
 """
 
 configfile: "config/config.yaml"
 
-rule create_GFF:
+rule generate_extract_CDS_annotation:
+    """
+    creating a gff file by executing python script
+    
+    input: Genome annotation file.gff3
+    output: Essential gff annotation file
+    """
     input:
-        config["datadir"] + config["ref_genome"] + config["ext"]["annotation"]
+        config["data_dir"] + config["ref_genome"] + config["ext"]["annotation"]
     output:
-        "data/NC_000913.3_CDS.gff"
+        config["data_dir"] + "NC_000913.3_CDS.gff"
     message:
         "creating GGF3 file from {input}"
     log:
-        "logs/create_GGF3/create_GFF.log"
+        config["log_dir"] + "GGF3_annotation/generate_extract_CDS_annotation.log"
     shell:
         "python3 scripts/python/parse_genome_annotation.py -i {input} -o {output} 2> {log}"
