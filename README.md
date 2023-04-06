@@ -234,6 +234,13 @@ To clear all generate output, use rule clean:
 ```bash
 snakemake -c<number of cores> clean
 ```
+--------------------------------------------------------------------------------
+
+## Example output
+
+Example output heatmap visualization:
+
+![](images/heatmap.png)
 
 --------------------------------------------------------------------------------
 
