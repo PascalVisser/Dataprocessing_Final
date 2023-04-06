@@ -1,18 +1,44 @@
 """
-Main snakefile with executes all rules in correct order
+Main snakefile that executes all rules in correct order
+
+rules:
+
+all: 'god' rule
 """
+
 configfile: "config/config.yaml"
 
-rule all:
-    input:
-        expand("results/ribo/ribo_profile_{sample}.gff",sample=config["samples"]),
-        "results/DESeq"
 
+rule all:
+    """
+    This rule forces snakemake to create the files below by chaining other files. 
+    """
+    input:
+        expand(config["results_dir"] + "ribosome_density_sample_{sample}.gff",sample=config["samples"]),
+        "results/DESeq",
+        config["image_dir"] + "workflow_visualization.png"
+
+
+rule clean:
+    """
+    clears all generated output to get a 'clean' start
+    """
+    run:
+        shell("rm -rf results/")
+        shell("rm -rf logs/")
+        shell("rm -rf images/")
+        shell("rm -rf data/NC_000913.3_CDS.gff")
+        shell("rm -rf data/bowtie2_refDB/")
+
+
+
+# include all other rules
 include: "rules/trimmomatic.smk"
 include: "rules/mapping.smk"
 include: "rules/decompiler.smk"
 include: "rules/GFF3_annotation.smk"
 include: "rules/meta_analysis.smk"
 include: "rules/ribo-seq_profile.smk"
-include: "rules/differential_expression_analysis.smk"
-include: "rules/generate_heatmap.smk"
+include: "rules/pre_process_visualization.smk"
+include: "rules/generate_visualization.smk"
+include: "rules/create_dag.smk"
