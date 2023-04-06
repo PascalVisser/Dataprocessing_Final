@@ -5,16 +5,16 @@ start_time <- Sys.time()
 if (!require("BiocManager", quietly = TRUE))
   install.packages("BiocManager")
 
-if (!require("getopt")) {
-  BiocManager::install("DESeq2")
+if (!require("DESeq2")) {
+  install.packages("DESeq2")
 }
 
-if (!require("getopt")) {
-  BiocManager::install("RColorBrewer")
+if (!require("RColorBrewer")) {
+  install.packages("RColorBrewer")
 }
 
-if (!require("getopt")) {  
-  BiocManager::install("gplots")
+if (!require("gplots")) {  
+  install.packages("gplots")
 }
 
 if (!require("getopt")) {
