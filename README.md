@@ -12,7 +12,7 @@ so-called simple translatome analysis tool for Ribo-Seq (STATR). STATR can be
 used to carry out the primary processing of Ribo-Seq data,subsequently allowing 
 for multiple levels of translatome study, from experimental validation to in-depth analyse.
 
-The article can be found here: [Link to article](https://link.springer.com/article/10.1007/s12275-020-9536-2)\n
+The article can be found here: [Link to article](https://link.springer.com/article/10.1007/s12275-020-9536-2)  
 The full article is downloadable from the link.
 
 --------------------------------------------------------------------------------
