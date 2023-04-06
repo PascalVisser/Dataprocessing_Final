@@ -1,7 +1,7 @@
 """
-Thi script removes the low-quality reads (or bases) and the adapter sequence
+This script removes the low-quality reads (or bases) and the adapter sequence
 that may not be removed from sequencer, so that only the high
-quality ribosome-protected sequence remains.
+quality ribosome-protected sequences remains.
 
 rules:
 
@@ -12,21 +12,23 @@ configfile: "config/config.yaml"
 
 rule trimmomatic:
     """
-    Trims the low quality reads to achieve only high quality reads
+    Trims the low quality reads to achieve only high quality reads,
+    discard low quality reads 
+    
     - input: raw samples
     - output: high quality trimmed samples
     """
     input:
-        raw_reads=config["datadir"] + '{sample}' + config["ext"]["raw_reads"],
-        adapter=config["datadir"] + config["ribo_adapter"] + config["ext"]["genome"]
-
+        raw_reads=config["data_dir"] + '{sample}' + config["ext"]["raw_reads"],
+        adapter=config["data_dir"] + config["ribo_adapter"] + config["ext"]["genome"]
     output:
-        "results/trimmed_reads/{sample}_trimmed.fastq.gz"
+         temp(config["results_dir"] + "trimmed_reads/{sample}_trimmed.fastq.gz")
 
     threads:
         config["threads"]
 
     params:
+        # parameters received from article
         jar=config["trimmomatic"]["jar"],
         phred=config["trimmomatic"]["phred"],
         minlen=config["trimmomatic"]["minlen"],
@@ -40,7 +42,7 @@ rule trimmomatic:
         "Trimmomatic started trimming {input.raw_reads}"
 
     log:
-        "logs/trimmomatic/{sample}_trimmed.log"
+       config["log_dir"] + "trimmomatic/{sample}_trimmed.log"
 
     shell:
         "java -jar {params.jar} \
