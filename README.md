@@ -7,7 +7,13 @@ Repository for the Dataprocessing course (2022-2023) final assignment.
 ## About the repository
 This repository is about the Dataprocessing course final assignment, This assignment is to re-create a high-performance bioinformatic data analysis workflow. 
 
-...extend with information about article + link...
+The aritcle is about a simple analysis pipeline for Ribo-Seq data in bacteria, 
+so-called simple translatome analysis tool for Ribo-Seq (STATR). STATR can be
+used to carry out the primary processing of Ribo-Seq data,subsequently allowing 
+for multiple levels of translatome study, from experimental validation to in-depth analyse.
+
+The article can be found here:[Link to article](https://link.springer.com/article/10.1007/s12275-020-9536-2) 
+The full article is downloadable from the link.
 
 --------------------------------------------------------------------------------
 
@@ -18,6 +24,7 @@ This repository has directories with file and data and supporting files
 |---               |---                                                   |
 |Config            |Configuration file                                    |
 |Data              |Raw reads and genome(annotation)                      |
+|Images            |workflow visualization                                |
 |Scripts           |Python and R scripts                                  |
 |Software          |installation dir for software + install shell scripts |
 |Workflow          |Snakefile + rules directory                           |
@@ -164,9 +171,69 @@ if problems arise, you can also follow the [official installation guide](https:/
 
 ## workflow and rules
 
+### workflow
+
+Pipeline overview: ![](images/workflow_visualization.png)
+
+### rules 
+
+- trimmomatic.smk
+  - *rule trimmomatic:* Trims low quality reads
+- mapping.smk
+  - *rule building_reference_DB:* Builds reference database
+  - *rule bowtie2_mapping_reads:* Maps reads against reference database
+- decompiler.smk
+  - *rule convert_sam_to_bam:* Convert the .SAM alignment file into a .BAM file
+  - *rule samtools_bam_sort:* Sort bam files
+  - *rule decompile_bam_to_bed:* Decompile the sorted alignment file (.BAM)
+- meta_analysis.smk
+  - *rule meta-analyse:* meta-analysis on decompiled bed file
+- ribo_seq_profile.smk
+  - *rule calculate_ribosome_density:* Calculate the ribosome density
+- GFF3_annoation.smk
+  - *rule generate_extract_CDS_annotation:* creating a gff file
+- pre_process_visualization.smk
+  - *rule bedtools_coverage:* compute the breadth and depth of coverage
+  - *rule merge_and_reFormat:* Merge and re-format the read count
+- generate_visualization.smk
+  - *rule install_R_packages:* Installs and check R packages 
+  - *rule create_visualizations:* create visualizations
+- create_dag.smk
+  - *rule create_dag:*  Create a dag file
+  
+Detailed descriptions of rules and/or specific snakefiles can be found in 
+the in-file documentation.
+
 --------------------------------------------------------------------------------
 
 ## Usage
+
+**Important** Execute all commands from the root of this assignment *Dataprocessing_final/*, This is because the snakefile contains paths that runs from the dirroot. 
+
+To use this pipeline, simply execute the following command:
+
+```bash
+snakemake -c<number of cores to use>
+```
+
+This will execute the snakemake file and directs the output to the folders. Each rule can also be executed separately, just execute the command:
+
+```bash
+snakemake --list
+```
+
+This will generate a list of all the rule in the file. Rules can be executed by the following command:
+
+
+```bash
+snakemake -c<number of cores> <name of the rule>
+```
+
+To clear all generate output, use rule clean:
+
+```bash
+snakemake -c<number of cores> clean
+```
 
 --------------------------------------------------------------------------------
 
@@ -179,5 +246,7 @@ For support or other questions
   
 --------------------------------------------------------------------------------
 
+## License
 
+[License](LICENSE)
 
