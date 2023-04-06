@@ -1,11 +1,15 @@
-#Configfile
+# Configfile
 
-## directories
-datadir: data/
+## Directories
+data_dir: data/
+results_dir: results/
+log_dir: logs/
+image_dir: images/
 ref_DB: bowtie2_refDB/
 
 ## samples
 samples: ['Eco_Ctrl1', 'Eco_Ctrl2', 'Eco_Exp1', 'Eco_Exp2']
+EXT: ["1.bt2", "2.bt2", "3.bt2", "4.bt2", "rev.1.bt2", "rev.2.bt2"]
 
 ## genomes
 ribo_adapter: RiboSeq_adapter_as
