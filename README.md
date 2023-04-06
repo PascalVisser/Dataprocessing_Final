@@ -110,7 +110,7 @@ snakemake --version
 This should give a output of 6.15.5, or otherwise an error if installation was not correct.
 For installation help if necessary: [Snakemake installation](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html)
 
-### Intalling Trimmomatic
+### Installing Trimmomatic
 
 Trimmomatic is the main tool for trimming the raw reads. It trims the low quality reads and removes the adapter sequences. 
 
